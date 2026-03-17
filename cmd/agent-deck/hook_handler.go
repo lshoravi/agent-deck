@@ -389,7 +389,7 @@ func writeCostEvent(instanceID string, rawPayload []byte) {
 	if err := os.WriteFile(tmpPath, jsonData, 0644); err != nil {
 		return
 	}
-	os.Rename(tmpPath, finalPath)
+	_ = os.Rename(tmpPath, finalPath)
 }
 
 // readLastLine reads the last non-empty line from a file.
