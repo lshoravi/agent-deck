@@ -17,6 +17,7 @@ func conductorInstance(id, name, path string) *session.Instance {
 		GroupPath:   "conductor",
 		ProjectPath: path,
 		Status:      session.StatusWaiting,
+		IsConductor: true,
 	}
 }
 
