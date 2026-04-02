@@ -6625,7 +6625,7 @@ func (h *Home) suggestConductorParent() string {
 	}
 	inst := item.Session
 	// Cursor is directly on a conductor.
-	if inst.IsConductor {
+	if inst.IsConductor || strings.HasPrefix(inst.Title, "conductor-") {
 		return inst.ID
 	}
 	// Cursor is on a session that has a conductor parent.
@@ -6633,7 +6633,7 @@ func (h *Home) suggestConductorParent() string {
 		h.instancesMu.RLock()
 		parent, ok := h.instanceByID[inst.ParentSessionID]
 		h.instancesMu.RUnlock()
-		if ok && parent.IsConductor {
+		if ok && (parent.IsConductor || strings.HasPrefix(parent.Title, "conductor-")) {
 			return parent.ID
 		}
 	}
@@ -6648,7 +6648,7 @@ func (h *Home) activeConductorSessions() []*session.Instance {
 
 	var out []*session.Instance
 	for _, inst := range h.instances {
-		if inst.IsConductor &&
+		if (inst.IsConductor || strings.HasPrefix(inst.Title, "conductor-")) &&
 			inst.Status != session.StatusError &&
 			inst.Status != session.StatusStopped {
 			out = append(out, inst)
